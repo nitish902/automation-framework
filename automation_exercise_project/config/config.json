@@ -1,0 +1,7 @@
+{
+  "url": "https://automationexercise.com",
+  "browser": "chrome",
+  "email": "test@gmail.com",
+  "password": "123456",
+  "timeout": 10
+}

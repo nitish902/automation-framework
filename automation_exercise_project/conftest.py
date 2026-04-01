@@ -2,6 +2,7 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 from config.config_reader import get_config
 
 
@@ -10,20 +11,20 @@ def driver():
 
     config = get_config()
 
-    browser = config["browser"]
+    chrome_options = Options()
 
-    if browser == "chrome":
+    chrome_options.add_argument("--headless=new")
 
-        service = Service(ChromeDriverManager().install())
+    chrome_options.add_argument("--no-sandbox")
 
-        driver = webdriver.Chrome(service=service)
+    chrome_options.add_argument("--disable-dev-shm-usage")
 
-    else:
+    chrome_options.add_argument("--window-size=1920,1080")
 
-        service = Service(ChromeDriverManager().install())
 
-        driver = webdriver.Chrome(service=service)
+    service = Service(ChromeDriverManager().install())
 
+    driver = webdriver.Chrome(service=service, options=chrome_options)
 
     driver.maximize_window()
 

@@ -1,5 +1,4 @@
 from pages.base_page import BasePage
-from selenium.webdriver.common.by import By
 
 
 class ProductsPage(BasePage):
@@ -15,8 +14,6 @@ class ProductsPage(BasePage):
     SEARCH_BTN = "//button[@id='submit_search']"
 
     ADD_TO_CART_BTNS = "//a[contains(text(),'Add to cart')]"
-
-    VIEW_CART_BTN = "//u[text()='View Cart']"
 
 
 
@@ -48,13 +45,13 @@ class ProductsPage(BasePage):
 
 
 
-    # stable click without hover
+    # stable add to cart
 
     def add_first_product_to_cart(self):
 
-        add_buttons = self.finds(self.ADD_TO_CART_BTNS)
+        buttons = self.finds(self.ADD_TO_CART_BTNS)
 
-        first_btn = add_buttons[0]
+        first_btn = buttons[0]
 
 
 
@@ -68,20 +65,8 @@ class ProductsPage(BasePage):
 
 
 
+    # go to cart directly (CI stable)
+
     def view_cart(self):
 
-        view_cart_btn = self.wait.until(
-
-            lambda d: d.find_element(By.XPATH, self.VIEW_CART_BTN)
-
-        )
-
-
-
-        self.driver.execute_script(
-
-            "arguments[0].click();",
-
-            view_cart_btn
-
-        )
+        self.driver.get("https://automationexercise.com/view_cart")

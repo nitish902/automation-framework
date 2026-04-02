@@ -12,6 +12,7 @@ class BasePage:
         self.wait = WebDriverWait(driver, 15)
 
 
+
     def find(self, xpath):
 
         return self.wait.until(
@@ -19,6 +20,7 @@ class BasePage:
             EC.presence_of_element_located((By.XPATH, xpath))
 
         )
+
 
 
     def finds(self, xpath):
@@ -30,6 +32,7 @@ class BasePage:
         )
 
 
+
     def click(self, xpath):
 
         element = self.wait.until(
@@ -39,6 +42,7 @@ class BasePage:
         )
 
         element.click()
+
 
 
     def type(self, xpath, text):
@@ -54,6 +58,7 @@ class BasePage:
         element.send_keys(text)
 
 
+
     def get_text(self, xpath):
 
         element = self.wait.until(
@@ -63,6 +68,7 @@ class BasePage:
         )
 
         return element.text
+
 
 
     def wait_for(self, xpath):

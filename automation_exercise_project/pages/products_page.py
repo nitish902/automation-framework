@@ -87,16 +87,24 @@ class ProductsPage(BasePage):
 
     def view_cart(self):
 
-        self.wait_for(self.VIEW_CART_BTN)
+    modal = self.wait.until(
 
-        view_cart_btn = self.find(self.VIEW_CART_BTN)
+        lambda d: d.find_element("xpath", "//div[@class='modal-content']")
 
+    )
 
+    view_cart_btn = modal.find_element(
 
-        self.driver.execute_script(
+        "xpath",
 
-            "arguments[0].click();",
+        ".//u[text()='View Cart']"
 
-            view_cart_btn
+    )
 
-        )
+    self.driver.execute_script(
+
+        "arguments[0].click();",
+
+        view_cart_btn
+
+    )

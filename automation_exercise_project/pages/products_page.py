@@ -1,6 +1,5 @@
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
 
 
 class ProductsPage(BasePage):
@@ -14,6 +13,8 @@ class ProductsPage(BasePage):
     SEARCH_INPUT = "//input[@id='search_product']"
 
     SEARCH_BTN = "//button[@id='submit_search']"
+
+    FIRST_ADD_TO_CART_BTN = "(//a[contains(text(),'Add to cart')])[1]"
 
     VIEW_CART_BTN = "//u[text()='View Cart']"
 
@@ -47,44 +48,44 @@ class ProductsPage(BasePage):
 
 
 
+    # CI stable add to cart
+
     def add_first_product_to_cart(self):
 
-        products = self.finds(self.PRODUCT_CARDS)
+        add_btn = self.wait.until(
 
-        first_product = products[0]
+            lambda d: d.find_element(By.XPATH, self.FIRST_ADD_TO_CART_BTN)
 
-
-
-        ActionChains(self.driver).move_to_element(first_product).perform()
-
-
-
-        add_btn = first_product.find_element(
-            By.XPATH,
-            ".//a[contains(text(),'Add to cart')]"
         )
 
 
 
         self.driver.execute_script(
+
             "arguments[0].click();",
+
             add_btn
+
         )
 
 
+
+    # CI stable view cart
 
     def view_cart(self):
 
-        modal = self.wait.until(
-            lambda d: d.find_element(By.XPATH, "//div[@class='modal-content']")
+        view_cart_btn = self.wait.until(
+
+            lambda d: d.find_element(By.XPATH, self.VIEW_CART_BTN)
+
         )
 
-        view_cart_btn = modal.find_element(
-            By.XPATH,
-            ".//u[text()='View Cart']"
-        )
+
 
         self.driver.execute_script(
+
             "arguments[0].click();",
+
             view_cart_btn
+
         )

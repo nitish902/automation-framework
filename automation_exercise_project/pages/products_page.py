@@ -1,10 +1,9 @@
 from pages.base_page import BasePage
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
 
 class ProductsPage(BasePage):
-
-    # locators
 
     PRODUCTS_TITLE = "//h2[text()='All Products']"
 
@@ -12,17 +11,13 @@ class ProductsPage(BasePage):
 
     PRODUCT_NAMES = "//div[@class='productinfo text-center']/p"
 
-    ADD_TO_CART_BTNS = "//a[contains(text(),'Add to cart')]"
-
-    VIEW_CART_BTN = "//u[text()='View Cart']"
-
     SEARCH_INPUT = "//input[@id='search_product']"
 
     SEARCH_BTN = "//button[@id='submit_search']"
 
+    VIEW_CART_BTN = "//u[text()='View Cart']"
 
 
-    # page loaded validation
 
     def is_products_page_loaded(self):
 
@@ -30,15 +25,11 @@ class ProductsPage(BasePage):
 
 
 
-    # count products
-
     def get_product_count(self):
 
         return len(self.finds(self.PRODUCT_CARDS))
 
 
-
-    # get all product names
 
     def get_all_product_names(self):
 
@@ -48,8 +39,6 @@ class ProductsPage(BasePage):
 
 
 
-    # search product
-
     def search_product(self, product_name):
 
         self.type(self.SEARCH_INPUT, product_name)
@@ -57,8 +46,6 @@ class ProductsPage(BasePage):
         self.click(self.SEARCH_BTN)
 
 
-
-    # add first product to cart (CI stable)
 
     def add_first_product_to_cart(self):
 
@@ -74,25 +61,29 @@ class ProductsPage(BasePage):
 
 
 
-        add_buttons = self.finds(self.ADD_TO_CART_BTNS)
+        # find Add to cart button ONLY inside this product
 
-        first_add_btn = add_buttons[0]
+        add_btn = first_product.find_element(
 
+            By.XPATH,
 
-
-        # javascript click (more stable in CI)
-
-        self.driver.execute_script(
-
-            "arguments[0].click();",
-
-            first_add_btn
+            ".//a[contains(text(),'Add to cart')]"
 
         )
 
 
 
-    # click view cart popup button
+        # click using JS (stable in CI)
+
+        self.driver.execute_script(
+
+            "arguments[0].click();",
+
+            add_btn
+
+        )
+
+
 
     def view_cart(self):
 

@@ -55,56 +55,36 @@ class ProductsPage(BasePage):
 
 
 
-        # hover on product
-
         ActionChains(self.driver).move_to_element(first_product).perform()
 
 
 
-        # find Add to cart button ONLY inside this product
-
         add_btn = first_product.find_element(
-
             By.XPATH,
-
             ".//a[contains(text(),'Add to cart')]"
-
         )
 
 
 
-        # click using JS (stable in CI)
-
         self.driver.execute_script(
-
             "arguments[0].click();",
-
             add_btn
-
         )
 
 
 
     def view_cart(self):
 
-    modal = self.wait.until(
+        modal = self.wait.until(
+            lambda d: d.find_element(By.XPATH, "//div[@class='modal-content']")
+        )
 
-        lambda d: d.find_element("xpath", "//div[@class='modal-content']")
+        view_cart_btn = modal.find_element(
+            By.XPATH,
+            ".//u[text()='View Cart']"
+        )
 
-    )
-
-    view_cart_btn = modal.find_element(
-
-        "xpath",
-
-        ".//u[text()='View Cart']"
-
-    )
-
-    self.driver.execute_script(
-
-        "arguments[0].click();",
-
-        view_cart_btn
-
-    )
+        self.driver.execute_script(
+            "arguments[0].click();",
+            view_cart_btn
+        )

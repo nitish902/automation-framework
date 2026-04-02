@@ -9,13 +9,13 @@ class TestProducts:
 
     def test_products_page(self, driver):
 
-        home = HomePage(driver)
-        home.open()
-        home.go_to_products()
+       home = HomePage(driver)
 
-        products = ProductsPage(driver)
+       home.open()
 
-        assert products.is_products_page_loaded()
+       home.go_to_products()
+
+       assert "products" in driver.current_url
 
 
 

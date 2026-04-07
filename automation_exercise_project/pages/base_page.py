@@ -1,4 +1,3 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -12,69 +11,56 @@ class BasePage:
         self.wait = WebDriverWait(driver, 15)
 
 
+    def open(self, url):
 
-    def find(self, xpath):
-
-        return self.wait.until(
-
-            EC.presence_of_element_located((By.XPATH, xpath))
-
-        )
+        self.driver.get(url)
 
 
-
-    def finds(self, xpath):
+    def find(self, locator):
 
         return self.wait.until(
 
-            EC.presence_of_all_elements_located((By.XPATH, xpath))
+            EC.presence_of_element_located(locator)
 
         )
 
 
+    def finds(self, locator):
 
-    def click(self, xpath):
+        return self.wait.until(
 
-        element = self.wait.until(
-
-            EC.element_to_be_clickable((By.XPATH, xpath))
-
-        )
-
-        element.click()
-
-
-
-    def type(self, xpath, text):
-
-        element = self.wait.until(
-
-            EC.visibility_of_element_located((By.XPATH, xpath))
+            EC.presence_of_all_elements_located(locator)
 
         )
+
+
+    def click(self, locator):
+
+        self.wait.until(
+
+            EC.element_to_be_clickable(locator)
+
+        ).click()
+
+
+    def type(self, locator, text):
+
+        element = self.find(locator)
 
         element.clear()
 
         element.send_keys(text)
 
 
+    def get_text(self, locator):
 
-    def get_text(self, xpath):
-
-        element = self.wait.until(
-
-            EC.visibility_of_element_located((By.XPATH, xpath))
-
-        )
-
-        return element.text
+        return self.find(locator).text
 
 
-
-    def wait_for(self, xpath):
+    def wait_for(self, locator):
 
         self.wait.until(
 
-            EC.visibility_of_element_located((By.XPATH, xpath))
+            EC.presence_of_all_elements_located(locator)
 
         )
